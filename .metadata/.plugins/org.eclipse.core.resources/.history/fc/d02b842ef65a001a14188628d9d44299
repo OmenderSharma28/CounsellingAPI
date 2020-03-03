@@ -1,0 +1,83 @@
+package com.example.demo.services;
+
+
+
+import com.example.demo.model.NTDateTimeRoleVO;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.NonTransientDataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.tags.EditorAwareTag;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+
+@Service
+public class NTDateTimeServiceImpl{
+
+    @Autowired
+    INTDateTimeService counselingAPI;
+
+    //create operation
+    public NTDateTimeRoleVO insertCounseling(NTDateTimeRoleVO dateTimeRoleVO) {
+        return counselingAPI.save(dateTimeRoleVO);
+     
+    }
+
+
+    public void updateCounseling(NTDateTimeRoleVO dateTimeRoleVO) {
+//        BasicDBObject dbObject = new BasicDBObject();
+//        dbObject.put("name", dateTimeRoleVO.getName());
+        List<NTDateTimeRoleVO> dateTimeRoleVOS = new ArrayList<>();
+        List<NTDateTimeRoleVO> dateTimeRoleVO1 = counselingAPI.findAll();
+        counselingAPI.delete(dateTimeRoleVO);
+        for(NTDateTimeRoleVO dateTimeRoleVO2: dateTimeRoleVO1){
+           if(dateTimeRoleVO.getName().equalsIgnoreCase(dateTimeRoleVO2.getName())){
+               NTDateTimeRoleVO dateTimeRoleVO3 = new NTDateTimeRoleVO();
+               dateTimeRoleVO3.setRole(dateTimeRoleVO.getRole());
+               dateTimeRoleVO3.setTime(dateTimeRoleVO.getTime());
+               dateTimeRoleVO3.setName(dateTimeRoleVO.getName());
+               dateTimeRoleVOS.add(dateTimeRoleVO3);
+           }else{
+               dateTimeRoleVOS.add(dateTimeRoleVO2);
+           }
+        }
+        counselingAPI.saveAll(dateTimeRoleVOS);
+    }
+
+    public List<NTDateTimeRoleVO> getAllDateTimeRoles(){
+        return (List<NTDateTimeRoleVO>) counselingAPI.findAll();
+    }
+
+//    public Optional<NTDateTimeRoleVO> getbyChurchName(String firstName){
+//        return counselingAPI.findOne(firstName);
+//    }
+
+    public void deleteCounseling(NTDateTimeRoleVO dateTimeRoleVO) {
+        counselingAPI.deleteCounseling(dateTimeRoleVO);
+
+    }
+
+    public void deleteAllCounseling(){
+        counselingAPI.deleteAll();
+    }
+
+    public List<NTDateTimeRoleVO> getCounseling(String name){
+        List<NTDateTimeRoleVO> resultVos = new ArrayList<>();
+
+            List<NTDateTimeRoleVO> dateTimeRoleVOS = counselingAPI.findAll();
+            for(NTDateTimeRoleVO dateTimeRoleVO1 : dateTimeRoleVOS){
+                if(dateTimeRoleVO1.getName().equalsIgnoreCase(name)){
+                    resultVos.add(dateTimeRoleVO1);
+                }
+            }
+            return  resultVos;
+
+    }
+}
+

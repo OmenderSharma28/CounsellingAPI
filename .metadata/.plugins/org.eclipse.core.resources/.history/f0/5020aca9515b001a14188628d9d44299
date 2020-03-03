@@ -1,0 +1,67 @@
+package com.example.demo.controller;
+
+import java.util.List;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.NTDateTimeRoleVO;
+import com.example.demo.services.NTDateTimeServiceImpl;
+
+@RestController
+public class CounsellingAPIController {
+	
+	@Autowired
+    public NTDateTimeServiceImpl counselingAPI;
+
+    @RequestMapping("/createAppointment")
+    public  String createAppointment(@RequestParam(value="name") String name, @RequestParam(value="role") String role,
+    	@RequestParam(value="time") String time) throws ParseException{
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	Date date = (Date) sdf.parse(time);
+        NTDateTimeRoleVO dateTimeRoleVO = new NTDateTimeRoleVO(name, role, date);
+        NTDateTimeRoleVO dateTimeRoleVO1 = counselingAPI.insertCounseling(dateTimeRoleVO);
+        return dateTimeRoleVO1.toString();
+    }
+
+    @RequestMapping("/getAppointments")
+    public List<NTDateTimeRoleVO> getAppointments(@RequestParam(value="name") String name){
+        return counselingAPI.getCounseling(name);
+    }
+
+    @RequestMapping("/getAllData")
+    public List<NTDateTimeRoleVO> getAllData(){
+        return counselingAPI.getAllDateTimeRoles();
+    }
+
+    @RequestMapping("/updateAppointment")
+    public void updateAppointment(@RequestParam(value="name") String name, @RequestParam(value="role") String role, 
+    		@RequestParam(value="time") String time) throws ParseException{
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	Date date = (Date) sdf.parse(time);
+        NTDateTimeRoleVO dateTimeRoleVO = new NTDateTimeRoleVO(name, role, date);
+        counselingAPI.updateCounseling(dateTimeRoleVO);
+    }
+
+    @RequestMapping("/deleteAllData")
+    public void deleteAllData(){
+        counselingAPI.deleteAllCounseling();
+    }
+
+    @RequestMapping("/deleteSelectedAppointment")
+    public void deleteSelectedAppointment(@RequestParam(value="name") String name, @RequestParam(value="role") String role,
+    		@RequestParam(value="time") String time) throws ParseException{
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+    	Date date = (Date) sdf.parse(time);
+        NTDateTimeRoleVO dateTimeRoleVO = new NTDateTimeRoleVO(name, role, date);
+        counselingAPI.deleteCounseling(dateTimeRoleVO);
+    }
+
+}

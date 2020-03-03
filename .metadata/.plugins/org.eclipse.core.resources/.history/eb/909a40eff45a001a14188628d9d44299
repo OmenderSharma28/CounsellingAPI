@@ -1,0 +1,24 @@
+package com.example.demo.services;
+
+
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.model.NTDateTimeRoleVO;
+
+import java.util.Date;
+import java.util.List;
+
+@Repository
+public interface INTDateTimeService extends MongoRepository<NTDateTimeRoleVO , String > {
+
+    public List<NTDateTimeRoleVO> getCounseling(String name) throws Exception;
+    public void insertCounseling(NTDateTimeRoleVO dateTimeRoleVO) throws Exception;
+    public void updateCounseling(NTDateTimeRoleVO dateTimeRoleVO) throws Exception;
+    public void deleteCounseling(NTDateTimeRoleVO dateTimeRoleVO);
+
+
+}

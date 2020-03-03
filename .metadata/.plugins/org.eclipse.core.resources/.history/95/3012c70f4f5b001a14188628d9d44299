@@ -1,0 +1,22 @@
+package com.example.demo.services;
+
+
+
+import java.util.List;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.model.NTDateTimeRoleVO;
+
+
+
+@Repository
+public interface INTDateTimeService extends MongoRepository<NTDateTimeRoleVO , String > {
+	
+	public NTDateTimeRoleVO findByName(String name);
+	public List<NTDateTimeRoleVO> findAllByName(String name);
+	 // public List<NTDateTimeRoleVO> findByLastName(String lastName);
+
+}
