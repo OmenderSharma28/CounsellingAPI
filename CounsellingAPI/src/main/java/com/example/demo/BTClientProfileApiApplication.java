@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CounsellingApiApplication {
+public class BTClientProfileApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CounsellingApiApplication.class, args);
-	}
+		SpringApplication.run(BTClientProfileApiApplication.class, args);
+	}	
 
 }
